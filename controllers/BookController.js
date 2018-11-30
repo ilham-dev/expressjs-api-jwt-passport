@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Book = require("../models/book");
+var Helper = require("../config/helper");
 var cektoken = require("../config/token");
 
 var BookController = {};
@@ -30,12 +31,13 @@ BookController.add = function(req, res) {
   
       newBook.save(function(err) {
         if (err) {
-          return res.json({success: false, msg: 'Save book failed.'});
+          return Helper.status(500,"Gagal di simpan ",res);
         }
-        res.json({success: true, msg: 'Successful created new book.'});
+        return Helper.status(200,"Berhasil di simpan",res);
       });
     } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+        console.log('Unauthorized');
+        return res.status(403).send({success: false, msg: 'Unauthorized'});
     }
 };
 
